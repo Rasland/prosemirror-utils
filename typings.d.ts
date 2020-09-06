@@ -57,6 +57,8 @@ export function findChildrenByMark(node: ProsemirrorNode, markType: MarkType, de
 
 export function contains(node: ProsemirrorNode, nodeType: NodeType): boolean;
 
+export function equalNodeType (nodeType: NodeType | NodeType[], node: ProsemirrorNode): boolean;
+
 // Table
 export function findTable(selection: Selection): ContentNodeWithPos | undefined;
 
@@ -116,7 +118,7 @@ export function findCellClosestToPos($pos: ResolvedPos): ContentNodeWithPos | un
 
 export function findCellRectClosestToPos($pos: ResolvedPos): {top: number, bottom: number, left: number, right: number} | undefined;
 
-export function createTable(schema: Schema, rowsCount?: number, colsCount?: number, withHeaderRow?: boolean, cellContent?: Node): ProsemirrorNode;
+export function createTable(schema: Schema, rowsCount?: number, colsCount?: number, cellContent?: Node): ProsemirrorNode;
 
 export function getSelectionRect(selection: Selection): {top: number, bottom: number, left: number, right: number} | undefined;
 

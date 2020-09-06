@@ -4,14 +4,14 @@ import {
   addColumn,
   addRow,
   removeColumn,
-  removeRow
-} from 'prosemirror-tables';
+  removeRow,
+  tableNodeTypes
+} from '@rasland/prosemirror-tables';
 import { Selection } from 'prosemirror-state';
 import { findParentNode, findParentNodeClosestToPos } from './selection';
 import { setTextSelection, safeInsert } from './transforms';
 import {
   cloneTr,
-  tableNodeTypes,
   findTableClosestToPos,
   createCell,
   isRectSelected,
@@ -28,7 +28,7 @@ import {
 // ```
 export const findTable = selection =>
   findParentNode(
-    node => node.type.spec.tableRole && node.type.spec.tableRole === 'table'
+    node => node.type.spec.tableRole && /table/i.test(node.type.spec.tableRole)
   )(selection);
 
 // :: (selection: Selection) → boolean
@@ -822,9 +822,10 @@ export const cloneRowAt = rowIndex => tr => {
         }
       }
 
-      return safeInsert(tableNodes.row.create(cloneRow.attrs, cells), rowPos)(
-        tr
-      );
+      return safeInsert(
+        tableNodes.row.create(cloneRow.attrs, cells),
+        rowPos
+      )(tr);
     }
   }
   return tr;
@@ -902,7 +903,7 @@ export const removeTable = tr => {
   const { $from } = tr.selection;
   for (let depth = $from.depth; depth > 0; depth--) {
     let node = $from.node(depth);
-    if (node.type.spec.tableRole === 'table') {
+    if (/table/i.test(node.type.spec.tableRole)) {
       return cloneTr(tr.delete($from.before(depth), $from.after(depth)));
     }
   }
@@ -1124,34 +1125,18 @@ export const createTable = (
   schema,
   rowsCount = 3,
   colsCount = 3,
-  withHeaderRow = true,
   cellContent = null
 ) => {
-  const {
-    cell: tableCell,
-    header_cell: tableHeader,
-    row: tableRow,
-    table
-  } = tableNodeTypes(schema);
+  const { cell: tableCell, row: tableRow, table } = tableNodeTypes(schema);
 
   const cells = [];
-  const headerCells = [];
   for (let i = 0; i < colsCount; i++) {
     cells.push(createCell(tableCell, cellContent));
-
-    if (withHeaderRow) {
-      headerCells.push(createCell(tableHeader, cellContent));
-    }
   }
 
   const rows = [];
   for (let i = 0; i < rowsCount; i++) {
-    rows.push(
-      tableRow.createChecked(
-        null,
-        withHeaderRow && i === 0 ? headerCells : cells
-      )
-    );
+    rows.push(tableRow.createChecked(null, cells));
   }
 
   return table.createChecked(null, rows);

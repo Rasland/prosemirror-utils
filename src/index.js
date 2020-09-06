@@ -6,5 +6,6 @@ export {
   isNodeSelection,
   canInsert,
   convertTableNodeToArrayOfRows,
-  convertArrayOfRowsToTableNode
+  convertArrayOfRowsToTableNode,
+  equalNodeType
 } from './helpers';

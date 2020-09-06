@@ -1,6 +1,6 @@
 import { NodeSelection } from 'prosemirror-state';
 import { Fragment, Node as PMNode } from 'prosemirror-model';
-import { TableMap } from 'prosemirror-tables';
+import { TableMap } from '@rasland/prosemirror-tables';
 import { setTextSelection } from './transforms';
 import { findParentNodeClosestToPos } from './selection';
 
@@ -68,23 +68,6 @@ export const canReplace = ($pos, content) => {
 export const removeNodeAtPos = position => tr => {
   const node = tr.doc.nodeAt(position);
   return cloneTr(tr.delete(position, position + node.nodeSize));
-};
-
-// (schema: Schema) → {[key: string]: NodeType}
-// Returns a map where keys are tableRoles and values are NodeTypes.
-export const tableNodeTypes = schema => {
-  if (schema.cached.tableNodeTypes) {
-    return schema.cached.tableNodeTypes;
-  }
-  const roles = {};
-  Object.keys(schema.nodes).forEach(type => {
-    const nodeType = schema.nodes[type];
-    if (nodeType.spec.tableRole) {
-      roles[nodeType.spec.tableRole] = nodeType;
-    }
-  });
-  schema.cached.tableNodeTypes = roles;
-  return roles;
 };
 
 // :: ($pos: ResolvedPos, content: union<ProseMirrorNode, Fragment>) → boolean

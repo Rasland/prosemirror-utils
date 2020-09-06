@@ -11,8 +11,8 @@ export default {
     babel({
       exclude: 'node_modules/**'
     })
-  ],
-  external(id) {
-    return !/^[\.\/]/.test(id);
-  }
+  ]
+  // external(id) {
+  //   return !/^[\.\/]/.test(id);
+  // }
 };
