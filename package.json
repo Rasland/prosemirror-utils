@@ -1,6 +1,6 @@
 {
   "name": "@rasland/prosemirror-utils",
-  "version": "1.0.8",
+  "version": "1.0.12",
   "description": "Utils library for ProseMirror",
   "main": "dist/index.js",
   "author": {
@@ -48,7 +48,7 @@
   "peerDependencies": {
     "prosemirror-model": "^1.0.0",
     "prosemirror-state": "^1.0.1",
-    "@rasland/prosemirror-tables": "^1.0.5"
+    "@rasland/prosemirror-tables": "^1.0.12"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

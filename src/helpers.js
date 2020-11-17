@@ -105,7 +105,7 @@ export const isEmptyParagraph = node => {
 // ```
 export const findTableClosestToPos = $pos => {
   const predicate = node =>
-    node.type.spec.tableRole && /table/i.test(node.type.spec.tableRole);
+    node.type.spec.tableRole && /tbody/i.test(node.type.spec.tableRole);
   return findParentNodeClosestToPos($pos, predicate);
 };
 

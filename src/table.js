@@ -28,7 +28,7 @@ import {
 // ```
 export const findTable = selection =>
   findParentNode(
-    node => node.type.spec.tableRole && /table/i.test(node.type.spec.tableRole)
+    node => node.type.spec.tableRole && /tbody/i.test(node.type.spec.tableRole)
   )(selection);
 
 // :: (selection: Selection) → boolean
